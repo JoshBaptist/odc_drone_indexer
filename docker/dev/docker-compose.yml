@@ -1,0 +1,27 @@
+# Development
+version: '3.7'
+services:
+  manual:
+    image: ${OUT_IMG}
+    build:
+      context: ${DKR_CMP_CONTEXT}
+      dockerfile: docker/dev/Dockerfile
+      args:
+        WORKDIR: ${WORKDIR}
+        BASE_IMG: ${BASE_IMG}
+        REQS_PATH: ${REQS_PATH}
+        ODC_DB_HOSTNAME: odc
+        ODC_DB_DATABASE: ${ODC_DB_DATABASE}
+        ODC_DB_USER: ${ODC_DB_USER}
+        ODC_DB_PASSWORD: ${ODC_DB_PASSWORD}
+        ODC_DB_PORT: 5432
+    command: "tail -f /dev/null"
+    volumes:
+      - ${DKR_CMP_CONTEXT}/:${WORKDIR}
+  odc:
+    image: postgres:10-alpine
+    environment:
+      - POSTGRES_DB=${ODC_DB_DATABASE}
+      - POSTGRES_USER=${ODC_DB_USER}
+      - POSTGRES_PASSWORD=${ODC_DB_PASSWORD}
+      

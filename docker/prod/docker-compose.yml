@@ -1,0 +1,26 @@
+# Production
+version: '3.7'
+services:
+  manual:
+    image: ${OUT_IMG}
+    build:
+      context: ${DKR_CMP_CONTEXT}
+      dockerfile: docker/prod/Dockerfile
+      args:
+        WORKDIR: ${WORKDIR}
+        BASE_IMG: ${BASE_IMG}
+        REQS_PATH: ${REQS_PATH}
+        ODC_DB_HOSTNAME: ${ODC_DB_HOSTNAME}
+        ODC_DB_DATABASE: ${ODC_DB_DATABASE}
+        ODC_DB_USER: ${ODC_DB_USER}
+        ODC_DB_PASSWORD: ${ODC_DB_PASSWORD}
+        ODC_DB_PORT: ${ODC_DB_PORT}
+    command: "tail -f /dev/null"
+    volumes:
+      - ${DATA_DIR}:${DATA_DIR}
+    networks:
+      odc: {}
+networks: 
+  odc:
+    external: true
+    name: odc
