@@ -69,6 +69,9 @@ ps:
 restart: down up
 
 restart-no-build: down up-no-build
+
+push:
+	docker push ${PROD_OUT_IMG}
 # End Production #
 
 # Development #
@@ -93,9 +96,12 @@ dev-ps:
 dev-restart: dev-down dev-up
 
 dev-restart-no-build: dev-down dev-up-no-build
+
+dev-push:
+	docker push ${DEV_OUT_IMG}
 # End Development #
 
-## ODC Docker Network ##
+# ODC Docker Network #
 
 # Create the `odc` network on which everything runs.
 create-odc-network:
@@ -104,9 +110,9 @@ create-odc-network:
 delete-odc-network:
 	docker network rm odc
 
-## End ODC Docker Network ##
+# End ODC Docker Network #
 
-## ODC DB ##
+# ODC DB #
 
 # Create the persistent volume for the ODC database.
 create-odc-db-volume:
@@ -152,4 +158,4 @@ delete-odc-db:
 recreate-odc-db: stop-odc-db delete-odc-db create-odc-db
 
 recreate-odc-db-and-vol: stop-odc-db delete-odc-db recreate-odc-db-volume create-odc-db
-## End ODC DB ##
+# End ODC DB #
